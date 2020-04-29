@@ -43,6 +43,7 @@ app.post('/api/notes', function(req, res) {
       return console.log(error)
     }
     const notes = JSON.parse(data)
+    req.body.id = newID
     newID++
     notes.push(req.body)
     fs.writeFile(path.join(__dirname, 'db.json'), JSON.stringify(notes),
@@ -55,6 +56,28 @@ app.post('/api/notes', function(req, res) {
     })
   })
 })
+
+app.delete('/api/notes/:id', function(req, res) {
+  fs.readFile(path.join(__dirname, 'db.json'), 'utf8', function(error, data) {
+    const id = Number(req.params.id)
+    if (error) {
+      return console.log(error)
+    }
+    const notes = JSON.parse(data)
+    const deleteNotes = notes.filter(note => note.id !== id)
+    fs.writeFile(path.join(__dirname, 'db.json'), JSON.stringify(notes),
+    function(error) {
+      if (error) {
+        return console.log(error)
+      }
+      console.log('deleted note')
+      res.json(deleteNotes)
+    })
+  })
+})
+
+
+
 // listen function
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
