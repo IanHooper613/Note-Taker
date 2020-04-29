@@ -1,43 +1,48 @@
-const http = require('http')
-const fs = require('fs')
+// Setting up dependencies
+const path = require("path");
+const express = require("express");
+const fs = require("fs");
 
-const express = require('express')
-const path = require('path')
+// Setting up Express app
+const app = express();
+const PORT = 3000;
 
-const app = express()
-const PORT = 3000
 
-app.use(express.urlencoded({ extended: true }))
+// app use
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
+app.use(express.static(path.join(__dirname,"public")));
+// notes .json
+let notesAPI = [{ title: "Test Text", text: "Test Text" }];
 
-let note = []
+// routes
+app.get("/", (req, res) => {
+  return res.sendFile(path.join(__dirname, "/public/index.html"));
+});
 
-app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'index.html'))
-  })
+app.get("/notes", (req, res) => {
+  return res.sendFile(path.join(__dirname, "/public/notes.html"));
+});
 
-app.get('/notes', function (req, res) {
-    res.sendFile(path.join(__dirname, 'notes.html'))
-  })
+app.get("/api/notes", (req, res) => {
+  res.json(notesAPI);
+});
 
+app.post("/api/notes", (req, res) => {
+  console.log("Posting note to the server!");
+  let newNote = req.body;
+  notesAPI.push(newNote);
+  fs.writeFile("db.json", JSON.stringify(notesAPI), err => {
+    if (err) throw err;
+  });
+});
 
-app.get('/api/notes', function (req, res) {
-    res.json(note)
-})
+app.delete("/api/notes/:id", (req, res) => {
+  let thisNote = req.body;
+  notesAPI;
+});
 
-
-
-app.post('/api/notes', function (req, res) {
-   
-    const newNote = req.body
-  
-    console.log(newNote)
-  
-    note.push(newNote)
-  
-    res.json(newNote)
-    
-  })
-
-app.listen(PORT, () => console.log(`App is listening on PORT ${PORT}`))
-
+// listen function
+app.listen(PORT, function() {
+  console.log("App listening on PORT " + PORT);
+});
