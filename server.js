@@ -14,20 +14,18 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname,"public")));
 
 
+let newID = 0
 
-
-
-// routes
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '/public/index.html'))
+app.get('/notes', function (req, res) {
+  res.sendFile(path.join(__dirname, "/public/notes.html"))
 })
 
 //app.get('*', function(req, res) {
   //res.sendFile(path.join(__dirname, "/public/index.html"))
 //})
 
-app.get('/notes', function (req, res) {
-  res.sendFile(path.join(__dirname, "/public/notes.html"))
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '/public/index.html'))
 })
 
 app.get('/api/notes', function(req, res) {
@@ -39,7 +37,24 @@ app.get('/api/notes', function(req, res) {
   })
 })
 
-
+app.post('/api/notes', function(req, res) {
+  fs.readFile(path.join(__dirname, 'db.json'), 'utf8', function(error, data) {
+    if (error) {
+      return console.log(error)
+    }
+    const notes = JSON.parse(data)
+    newID++
+    notes.push(req.body)
+    fs.writeFile(path.join(__dirname, 'db.json'), JSON.stringify(notes),
+      function(error) {
+        if (error) {
+          return console.log(error)
+        }
+        console.log('new note')
+        res.json(req.body)
+    })
+  })
+})
 // listen function
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
