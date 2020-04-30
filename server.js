@@ -37,7 +37,7 @@ app.get('/notes', function (req, res) {
   res.sendFile(path.join(__dirname, '/public/index.html'))
 }) */
 
-//Reading the db.json file and returning and returning all notes as JSON format
+//Reading the db.json file and returning all notes as JSON format
 app.get('/api/notes', function(req, res) {
   fs.readFile('db.json', function (error, data) {
     if (error) throw error 
@@ -66,7 +66,8 @@ app.post('/api/notes', function(req, res) {
     })
   })
 })
-//Should delete the posted note on the notes.html page
+
+//Method to delete the posted notes on the notes.html page
 app.delete('/api/notes/:id', function(req, res) {
   const id = req.params.id
   fs.readFile('db.json', function(error, data) {
@@ -81,8 +82,6 @@ app.delete('/api/notes/:id', function(req, res) {
     })
   })
 })
-
-
 
 // Listen function. The below code starts the server.
 app.listen(PORT, function() {
