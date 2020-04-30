@@ -1,7 +1,7 @@
 //Adding dependencies
-const path = require("path");
-const express = require("express");
-const fs = require("fs");
+const path = require('path');
+const express = require('express');
+const fs = require('fs');
 
 //Setting up express app
 const app = express();
@@ -12,7 +12,7 @@ const PORT = 3000;
 //Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
-app.use(express.static(path.join(__dirname,"public")));
+app.use(express.static(path.join(__dirname,'public')));
 
 
 
@@ -21,12 +21,12 @@ let newID = 0
 
 //sends the user to the notes.html page
 app.get('/notes', function (req, res) {
-  res.sendFile(path.join(__dirname, "/public/notes.html"))
+  res.sendFile(path.join(__dirname, '/public/notes.html'))
 })
 
 //sends the user to the index.html page
 app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, "/public/index.html"))
+  res.sendFile(path.join(__dirname, '/public/index.html'))
 })
 
 //Sends the user to the index.html page
@@ -89,5 +89,5 @@ app.delete('/api/notes/:id', function(req, res) {
 
 // Listen function. The below code starts the server.
 app.listen(PORT, function() {
-  console.log("App listening on PORT " + PORT);
+  console.log('App listening on PORT ' + PORT);
 });
