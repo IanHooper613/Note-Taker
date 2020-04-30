@@ -67,24 +67,20 @@ app.post('/api/notes', function(req, res) {
   })
 })
 //Should delete the posted note on the notes.html page
-/* app.delete('/api/notes/:id', function(req, res) {
-  fs.readFile(path.join(__dirname, 'db.json'), 'utf8', function(error, data) {
-    const id = Number(req.params.id)
-    if (error) {
-      return console.log(error)
-    }
-    const notes = JSON.parse(data)
-    const deleteNotes = notes.filter(note => note.id !== id)
-    fs.writeFile(path.join(__dirname, 'db.json'), JSON.stringify(notes),
-    function(error) {
-      if (error) {
-        return console.log(error)
-      }
-      console.log('deleted note')
-      res.json(deleteNotes)
+app.delete('/api/notes/:id', function(req, res) {
+  const id = req.params.id
+  fs.readFile('db.json', function(error, data) {
+    if (error) throw error
+    let json = JSON.parse(data)
+    const newJson = json.filter((item)=> {
+      return item.id != id
+    })
+    fs.writeFile('db.json', JSON.stringify(newJson), function(error, data) {
+      if (error) throw error
+      res.json(json)
     })
   })
-}) */
+})
 
 
 
