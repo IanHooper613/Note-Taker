@@ -1,12 +1,16 @@
 ![GitHub followers](https://img.shields.io/github/followers/ianhooper613?label=Follow&style=social)
 
 # Note-Taker
-* An application that can write, save, and delete notes.
-This Note Taker allows users to keep track of a lot of information, that can be easy to forget. This application allows users to have written information available when needed.
+This Note Taker application allows users to write, save, and delete notes when needed.  Whether it's a very important meeting,
+or just a dentist appointment, the user will be able to oranize their thoughts, and keep track of tasks that need to be completed.  
+
+
 
 
 ## Live Demonstration
 Coming soon!
+
+
 
 
 ## Screenshot of application
@@ -19,15 +23,17 @@ Coming soon!
   * [Questions](#Questions)
 
 
-  
+
+
   ## Installation
-  To run this application, npm init must be run from the command line first.  After running npm install, the user must install the dependencies.  The following shows what to write at the command line in order to be able to run the application:
+  To run this application, "npm init" must be run from the command line first.  After running npm init, the user must install the dependencies needed for the application.  The following shows what to write at the command line in order to be able to run the application:
 
 
-  npm init
-  npm install
-  npm install nodemon
+  * npm init
+  * npm install
+  * npm install nodemon
   
+
 
 
   ## Contributing
