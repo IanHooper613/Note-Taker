@@ -16,8 +16,16 @@ app.use(express.static(path.join(__dirname,'public')));
 
 
 
-//Starting number for the id
-let newID = 0
+const note = {
+  title: 'Test Text',
+  text: 'Test Text',
+}
+
+
+//Sends the user to the index.html page
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '/public/index.html'))
+})
 
 //sends the user to the notes.html page
 app.get('/notes', function (req, res) {
@@ -25,48 +33,41 @@ app.get('/notes', function (req, res) {
 })
 
 //sends the user to the index.html page
-app.get('*', function(req, res) {
+/* app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, '/public/index.html'))
-})
-
-//Sends the user to the index.html page
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '/public/index.html'))
-})
+}) */
 
 //Reading the db.json file and returning and returning all notes as JSON format
 app.get('/api/notes', function(req, res) {
-  fs.readFile(path.join(__dirname, 'db.json'), 'utf8', function (error, data) {
-    if (error) {
-      return console.log(error)
-    }
-    res.json(JSON.parse(data))
+  fs.readFile('db.json', function (error, data) {
+    if (error) throw error 
+      console.log(error)
+      const json = JSON.parse(data)
+    res.json(json)
   })
 })
 
 //This post method saves a post to the page and adds it to the db.json file 
 app.post('/api/notes', function(req, res) {
-  fs.readFile(path.join(__dirname, 'db.json'), 'utf8', function(error, data) {
-    if (error) {
-      return console.log(error)
+  console.log(req.body.title)
+  fs.readFile('db.json', function(error, data) {
+    if (error) throw error
+    console.log(error)
+    let json = JSON.parse(data)
+    const newNote = {
+      id: Date.now(),
+      text: req.body.text,
+      title: req.body.title
     }
-    const notes = JSON.parse(data)
-    req.body.id = newID
-    newID++
-    notes.push(req.body)
-    fs.writeFile(path.join(__dirname, 'db.json'), JSON.stringify(notes),
-      function(error) {
-        if (error) {
-          return console.log(error)
-        }
-        console.log('new note')
-        res.json(req.body)
+    json.push(newNote)
+    fs.writeFile('db.json', JSON.stringify(json), function(error, data) {
+      if (error) throw error
+      res.json(json)
     })
   })
 })
-
 //Should delete the posted note on the notes.html page
-app.delete('/api/notes/:id', function(req, res) {
+/* app.delete('/api/notes/:id', function(req, res) {
   fs.readFile(path.join(__dirname, 'db.json'), 'utf8', function(error, data) {
     const id = Number(req.params.id)
     if (error) {
@@ -83,7 +84,7 @@ app.delete('/api/notes/:id', function(req, res) {
       res.json(deleteNotes)
     })
   })
-})
+}) */
 
 
 
